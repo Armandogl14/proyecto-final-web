@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <style>
+        .login-box-msg {
+            font-size: 30px;
+        }
+        .titulo{
+            text-align: center;
+            font-size: 50px;
+            margin-top: 20px;
+        }
+         .login-page {
+             background-color: lightgray;
+         }
+         .login-box{
+             background-color: gray;
+         }
+    </style>
+    <!--/*@thymesVar id="titulo" type=""*/-->
+    <title th:text="${titulo}">Login</title>
+</head>
+<body class="login-page" style="min-height: 466px;" cz-shortcut-listen="true">
+<h2 class="titulo">Login</h2>
+<div class="login-box">
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <a href="/public" class="h1"><b>Encuesta</b></a>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg">Inicia Sesion</p>
+            <p class="login-box-msg text-danger" th:if="${error}" th:text="${error}"></p>
+            <form action="/user/login" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Usuario" name="usuario" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Contraseña" name="password" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Recordar mi usuario</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-block btn-primary">Iniciar Sesion</button>
+                    </div>
+                    <div class="col">
+                        <a href="/">
+                            <button type="button" class="btn btn-block btn-danger">Cancelar</button>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

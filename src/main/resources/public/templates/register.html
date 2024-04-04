@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <!--/*@thymesVar id="titulo" type=""*/-->
+    <title th:text="${titulo}">Register</title>
+</head>
+<body class="register-page" style="min-height: 542px;" cz-shortcut-listen="true">
+<div class="register-box">
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <a href="/public" class="h1"><b>Encuesta</b></a>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg">Registra un nuevo usuario</p>
+            <p class="login-box-msg text-danger" th:if="${error}" th:text="${error}"></p>
+            <form action="/user/register" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Usuario" name="usuario" required>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Contraseña" name="password" required>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <button type="submit" class="btn btn-block btn-primary">Registar</button>
+                    </div>
+                    <div class="col-4">
+                        <a href="/">
+                            <button type="button" class="btn btn-block btn-danger">Cancelar</button>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
