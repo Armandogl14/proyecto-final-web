@@ -1,6 +1,11 @@
 package org.example.clases;
 
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
+
+@Entity("Usuario")
 public class Usuario {
+    @Id
     private String username;
     private String password;
     private boolean admin;

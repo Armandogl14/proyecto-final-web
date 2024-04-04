@@ -1,22 +1,38 @@
 package org.example.clases;
 
-import java.time.LocalDateTime;
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
+import dev.morphia.annotations.Reference;
 
+import java.time.LocalDateTime;
+@Entity("AccessRecord")
 public class AccessRecord {
+    @Id
+    private int id;
     private LocalDateTime accessTime;
     private String browser;
     private String ipAddress;
     private String clientDomain;
     private String operatingSystemPlatform;
+    @Reference
     private URL url;
 
-    public AccessRecord(LocalDateTime accessTime, String browser, String ipAddress, String clientDomain, String operatingSystemPlatform, URL url) {
+    public AccessRecord(int id, LocalDateTime accessTime, String browser, String ipAddress, String clientDomain, String operatingSystemPlatform, URL url) {
+        this.id = id;
         this.accessTime = accessTime;
         this.browser = browser;
         this.ipAddress = ipAddress;
         this.clientDomain = clientDomain;
         this.operatingSystemPlatform = operatingSystemPlatform;
         this.url = url;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LocalDateTime getAccessTime() {

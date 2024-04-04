@@ -2,12 +2,14 @@ package org.example.services;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
+import dev.morphia.Datastore;
+import dev.morphia.Morphia;
+import dev.morphia.mapping.MapperOptions;
 
 public class MongoServices {
     private static MongoServices instance = null;
     private MongoClient mongoClient;
-    private MongoDatabase database;
+    private Datastore datastore;
 
     private MongoServices() {
         String mongoUrl = System.getenv("MONGO_URL");
@@ -15,7 +17,7 @@ public class MongoServices {
             throw new RuntimeException("MONGO_URL is not set");
         }
         mongoClient = MongoClients.create(mongoUrl);
-        database = mongoClient.getDatabase("yourDatabaseName");
+        datastore = Morphia.createDatastore(mongoClient, "yourDatabaseName", MapperOptions.builder().build());
     }
 
     public static MongoServices getInstance() {
@@ -25,7 +27,7 @@ public class MongoServices {
         return instance;
     }
 
-    public MongoDatabase getDatabase() {
-        return database;
+    public Datastore getDatastore() {
+        return datastore;
     }
 }

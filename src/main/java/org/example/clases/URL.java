@@ -1,9 +1,16 @@
 package org.example.clases;
 
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
+import dev.morphia.annotations.Reference;
+
+@Entity("URL")
 public class URL {
+    @Id
     private int id;
     private String urlViejo;
     private String urlNuevo;
+    @Reference
     private Usuario usuario;
     private boolean activo;
     private int clicks;
