@@ -3,21 +3,21 @@ package org.example.clases;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Reference;
+import org.bson.types.ObjectId;
 
 import java.time.LocalDateTime;
 @Entity("AccessRecord")
 public class AccessRecord {
     @Id
-    private int id;
+    private ObjectId id;
     private LocalDateTime accessTime;
     private String browser;
     private String ipAddress;
     private String clientDomain;
     private String operatingSystemPlatform;
-    @Reference
-    private URL url;
+    private String url;
 
-    public AccessRecord(int id, LocalDateTime accessTime, String browser, String ipAddress, String clientDomain, String operatingSystemPlatform, URL url) {
+    public AccessRecord(ObjectId id, LocalDateTime accessTime, String browser, String ipAddress, String clientDomain, String operatingSystemPlatform, String url) {
         this.id = id;
         this.accessTime = accessTime;
         this.browser = browser;
@@ -27,11 +27,23 @@ public class AccessRecord {
         this.url = url;
     }
 
-    public int getId() {
+    public AccessRecord(LocalDateTime accessTime, String browser, String ipAddress, String clientDomain, String operatingSystemPlatform, String url) {
+        this.accessTime = accessTime;
+        this.browser = browser;
+        this.ipAddress = ipAddress;
+        this.clientDomain = clientDomain;
+        this.operatingSystemPlatform = operatingSystemPlatform;
+        this.url = url;
+    }
+
+    public AccessRecord() {
+    }
+
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
@@ -75,11 +87,11 @@ public class AccessRecord {
         this.operatingSystemPlatform = operatingSystemPlatform;
     }
 
-    public URL getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    public void setUrl(URL url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 }

@@ -2,10 +2,12 @@ package org.example.clases;
 
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
+import org.bson.types.ObjectId;
 
 @Entity("Usuario")
 public class Usuario {
     @Id
+    private ObjectId id;
     private String username;
     private String password;
     private boolean admin;
@@ -14,6 +16,15 @@ public class Usuario {
         this.username = username;
         this.password = password;
         this.admin = admin;
+    }
+
+    public Usuario(ObjectId id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
+    public Usuario() {
     }
 
     public String getUsername() {

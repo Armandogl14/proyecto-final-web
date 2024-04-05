@@ -3,20 +3,19 @@ package org.example.clases;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Reference;
+import org.bson.types.ObjectId;
 
 @Entity("URL")
 public class URL {
     @Id
-    private int id;
+    private ObjectId id;
     private String urlViejo;
     private String urlNuevo;
-    @Reference
-    private Usuario usuario;
+    private String usuario;
     private boolean activo;
     private int clicks;
 
-    public URL(int id, String urlViejo, String urlNuevo, Usuario usuario, boolean activo) {
-        this.id = id;
+    public URL(String urlViejo, String urlNuevo, String usuario, boolean activo) {
         this.urlViejo = urlViejo;
         this.urlNuevo = urlNuevo;
         this.usuario = usuario;
@@ -24,11 +23,23 @@ public class URL {
         this.clicks = 0;
     }
 
-    public int getId() {
+    public URL(ObjectId id, String urlViejo, String urlNuevo, String usuario, boolean activo, int clicks) {
+        this.id = id;
+        this.urlViejo = urlViejo;
+        this.urlNuevo = urlNuevo;
+        this.usuario = usuario;
+        this.activo = activo;
+        this.clicks = clicks;
+    }
+
+    public URL() {
+    }
+
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
@@ -48,11 +59,11 @@ public class URL {
         this.urlNuevo = urlNuevo;
     }
 
-    public Usuario getUsuario() {
+    public String getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
 
