@@ -1,11 +1,8 @@
 package org.example.util;
 
 public enum DatosEstaticos {
-    USUARIO("USUARIO"),
     URL_MONGO("URL_MONGO"),
-    DB_NOMBRE("DB_NOMBRE"),
-    CRUD_DNS_JAVALIN_DOMINIO("CRUD_DNS_JAVALIN_DOMINIO");
-
+    DB_NOMBRE("DB_NOMBRE");
 
     private String valor;
 
