@@ -13,7 +13,6 @@ public class AccessRecord {
     private LocalDateTime accessTime;
     private String browser;
     private String ipAddress;
-    private String clientDomain;
     private String operatingSystemPlatform;
     private String url;
 
@@ -22,16 +21,6 @@ public class AccessRecord {
         this.accessTime = accessTime;
         this.browser = browser;
         this.ipAddress = ipAddress;
-        this.clientDomain = clientDomain;
-        this.operatingSystemPlatform = operatingSystemPlatform;
-        this.url = url;
-    }
-
-    public AccessRecord(LocalDateTime accessTime, String browser, String ipAddress, String clientDomain, String operatingSystemPlatform, String url) {
-        this.accessTime = accessTime;
-        this.browser = browser;
-        this.ipAddress = ipAddress;
-        this.clientDomain = clientDomain;
         this.operatingSystemPlatform = operatingSystemPlatform;
         this.url = url;
     }
@@ -69,14 +58,6 @@ public class AccessRecord {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
-    }
-
-    public String getClientDomain() {
-        return clientDomain;
-    }
-
-    public void setClientDomain(String clientDomain) {
-        this.clientDomain = clientDomain;
     }
 
     public String getOperatingSystemPlatform() {

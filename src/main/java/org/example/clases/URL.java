@@ -15,21 +15,13 @@ public class URL {
     private boolean activo;
     private int clicks;
 
-    public URL(String urlViejo, String urlNuevo, String usuario, boolean activo) {
-        this.urlViejo = urlViejo;
-        this.urlNuevo = urlNuevo;
-        this.usuario = usuario;
-        this.activo = activo;
-        this.clicks = 0;
-    }
-
-    public URL(ObjectId id, String urlViejo, String urlNuevo, String usuario, boolean activo, int clicks) {
+    public URL(ObjectId id, String urlViejo, String urlNuevo, String usuario, boolean activo) {
         this.id = id;
         this.urlViejo = urlViejo;
         this.urlNuevo = urlNuevo;
         this.usuario = usuario;
         this.activo = activo;
-        this.clicks = clicks;
+        this.clicks = 0;
     }
 
     public URL() {

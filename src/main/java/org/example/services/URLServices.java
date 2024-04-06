@@ -14,4 +14,8 @@ public class URLServices extends MongoServices<URL>{
         }
         return instance;
     }
+
+    public URL findByShortURL(String shortURL) {
+        return this.findOne("urlNuevo", shortURL);
+    }
 }

@@ -12,12 +12,6 @@ public class Usuario {
     private String password;
     private boolean admin;
 
-    public Usuario(String username, String password, boolean admin) {
-        this.username = username;
-        this.password = password;
-        this.admin = admin;
-    }
-
     public Usuario(ObjectId id, String username, String password, boolean admin) {
         this.id = id;
         this.username = username;

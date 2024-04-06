@@ -57,7 +57,7 @@
                 <div class="carousel-item active">
                     <div class="carousel-caption d-none d-md-block">
                         <h1 class="carousel-title">INGRESE SU URL PARA ACORTARLA</h1>
-                        <form action="#" method="post">
+                        <form action="/url/shorten" method="post">
                             <input class="form-control" type="text" name="URL" placeholder="Default input">
                             <br>
                             <input class="btn btn-primary" type="submit" value="Acortar URL">
@@ -66,7 +66,7 @@
                 <div class="carousel-item">
                     <div class="carousel-caption d-none d-md-block">
                         <h1 class="carousel-title">ENTER YOUR URL TO SHORTEN IT</h1>
-                        <form action="#" method="post">
+                        <form action="/url/shorten" method="post">
                             <input class="form-control" type="text" name="URL" placeholder="Default input">
                             <br>
                             <input class="btn btn-primary" type="submit" value="Acortar URL">
@@ -75,7 +75,7 @@
                 <div class="carousel-item">
                     <div class="carousel-caption d-none d-md-block">
                         <h1 class="carousel-title">ENTREZ VOTRE URL POUR LA RACCOURCIR</h1>
-                        <form action="#" method="post">
+                        <form action="/url/shorten" method="post">
                             <input class="form-control" type="text" name="URL" placeholder="Default input">
                             <br>
                             <input class="btn btn-primary" type="submit" value="Acortar URL">
@@ -102,7 +102,7 @@
             <tbody>
             <tr th:each="url : ${urls}">
                 <td th:text="${url.urlViejo}"></td>
-                <td th:text="${url.urlNuevo}"></td>
+                <td th:text="'http://localhost:7000/' + ${url.urlNuevo}"></td>
                 <td th:text="${url.clicks}"></td>
 <!--               <td><a href="#"><img src="/assets/imgs/png-transparent-qr-code-barcode-scanners-scanner-q-text-rectangle-logo.png class="img-fluid" alt="QR Code"></a></td>-->
                 <td><a href="#">Ver resumen</a></td>

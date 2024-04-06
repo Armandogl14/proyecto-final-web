@@ -54,6 +54,11 @@ public class MongoServices<T> {
 
     }
 
+    public void update(T entidad) {
+        Datastore datastore = getConexionMorphia();
+        datastore.save(entidad);
+    }
+
     /**
      * Clase interna para realizar la conexión de a la base de datos.
      */
