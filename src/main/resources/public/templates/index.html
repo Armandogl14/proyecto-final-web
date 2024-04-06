@@ -16,6 +16,7 @@
 
     <!-- Bootstrap + Ollie main styles -->
     <link rel="stylesheet"  type="text/css"  href="assets/css/ollie.css">
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
     <style>
         .table-bordered{
             width: 100%;
@@ -61,6 +62,7 @@
                             <input class="form-control" type="text" name="URL" placeholder="Default input">
                             <br>
                             <input class="btn btn-primary" type="submit" value="Acortar URL">
+                        </form>
                     </div>
                 </div>
                 <div class="carousel-item">
@@ -70,6 +72,7 @@
                             <input class="form-control" type="text" name="URL" placeholder="Default input">
                             <br>
                             <input class="btn btn-primary" type="submit" value="Acortar URL">
+                        </form>
                     </div>
                 </div>
                 <div class="carousel-item">
@@ -79,6 +82,7 @@
                             <input class="form-control" type="text" name="URL" placeholder="Default input">
                             <br>
                             <input class="btn btn-primary" type="submit" value="Acortar URL">
+                        </form>
                     </div>
                 </div>
             </div>
@@ -104,8 +108,25 @@
                 <td th:text="${url.urlViejo}"></td>
                 <td th:text="'http://localhost:7000/' + ${url.urlNuevo}"></td>
                 <td th:text="${url.clicks}"></td>
-<!--               <td><a href="#"><img src="/assets/imgs/png-transparent-qr-code-barcode-scanners-scanner-q-text-rectangle-logo.png class="img-fluid" alt="QR Code"></a></td>-->
+                <td id="'qrcode' + ${stat.index}">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#qrModal" th:data-url="'http://localhost:7000/' + ${url.urlNuevo}" onclick="generateQRCode('qrcodeModal', this.getAttribute('data-url'))">Ver QR</button>
+                </td>
                 <td><a href="#">Ver resumen</a></td>
+                <script th:inline="javascript">
+                    /*<![CDATA[*/
+                    function generateQRCode(elementId, shortUrl) {
+                        document.getElementById(elementId).innerHTML = "";
+                        var qrcode = new QRCode(document.getElementById(elementId), {
+                            text: shortUrl,
+                            width: 128,
+                            height: 128,
+                            colorDark : "#000000",
+                            colorLight : "#ffffff",
+                            correctLevel : QRCode.CorrectLevel.H
+                        });
+                    }
+                    /*]]>*/
+                </script>
             </tr>
             </tbody>
         </table>
@@ -126,6 +147,24 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 <a href="/user/close" class="btn btn-primary">Cerrar sesión</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="qrModalLabel">Código QR</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="qrcodeModal"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
