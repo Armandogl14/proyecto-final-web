@@ -37,6 +37,11 @@ public class MongoServices<T> {
         Query<T> query = datastore.find(claseEntidad);
         return query;
     }
+    public T findOne(String campo, String valor){
+        Datastore datastore = getConexionMorphia();
+        Query<T> query = datastore.find(claseEntidad).filter(Filters.eq(campo, valor));
+        return query.first();
+    }
     public T findByID(String id){
         Datastore datastore = getConexionMorphia();
         Query<T> query = datastore.find(claseEntidad).filter(Filters.eq("_id", new ObjectId(id)));

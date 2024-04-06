@@ -25,7 +25,7 @@ public class URLController extends BaseController{
         });
     }
 
-    private String generateShortUrl(String originalUrl) {
+    /*private String generateShortUrl(String originalUrl) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(originalUrl.getBytes(StandardCharsets.UTF_8));
@@ -35,9 +35,9 @@ public class URLController extends BaseController{
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
-    /*private String generateShortUrl(String originalUrl) {
+    private String generateShortUrl(String originalUrl) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(originalUrl.getBytes(StandardCharsets.UTF_8));
@@ -47,5 +47,5 @@ public class URLController extends BaseController{
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-    }*/
+    }
 }
