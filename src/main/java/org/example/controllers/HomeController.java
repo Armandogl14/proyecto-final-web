@@ -11,7 +11,7 @@ public class HomeController extends BaseController{
     @Override
     public void aplicarRutas() {
         app.get("/", ctx -> {
-            ctx.render("templates/index.html");
+            ctx.render("public/templates/index.html");
         });
     }
 }

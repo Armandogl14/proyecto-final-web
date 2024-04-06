@@ -18,10 +18,11 @@ public class Usuario {
         this.admin = admin;
     }
 
-    public Usuario(ObjectId id, String username, String password) {
+    public Usuario(ObjectId id, String username, String password, boolean admin) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.admin = admin;
     }
 
     public Usuario() {

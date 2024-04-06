@@ -14,4 +14,8 @@ public class UserServices extends MongoServices<Usuario> {
         }
         return instance;
     }
+
+    public Usuario findByUsername(String username) {
+        return this.findOne("username", username);
+    }
 }
