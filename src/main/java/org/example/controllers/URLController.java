@@ -2,13 +2,16 @@ package org.example.controllers;
 
 import io.javalin.Javalin;
 import org.bson.types.ObjectId;
+import org.example.clases.AccessRecord;
 import org.example.clases.URL;
 import org.example.clases.Usuario;
+import org.example.services.AccessRecordServices;
 import org.example.services.URLServices;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.Base64;
 
 public class URLController extends BaseController{
@@ -34,6 +37,14 @@ public class URLController extends BaseController{
             if (url != null) {
                 url.setClicks(url.getClicks() + 1);
                 URLServices.getInstance().update(url);
+                AccessRecord accessRecord = new AccessRecord();
+                accessRecord.setAccessTime(LocalDateTime.now());
+                accessRecord.setBrowser(ctx.userAgent());
+                accessRecord.setIpAddress(ctx.ip());
+                accessRecord.setOperatingSystemPlatform(getOperatingSystem(ctx.userAgent()));
+                accessRecord.setUrl(url.getUrlNuevo());
+
+                AccessRecordServices.getInstance().crear(accessRecord);
                 ctx.redirect(url.getUrlViejo());
             } else {
                 ctx.status(404);
@@ -61,6 +72,24 @@ public class URLController extends BaseController{
             return encoded.substring(0, 10);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private String getOperatingSystem(String userAgent) {
+        // Parse the User-Agent string to determine the operating system
+        // This is a simple example and may not cover all cases
+        if (userAgent.toLowerCase().contains("windows")) {
+            return "Windows";
+        } else if (userAgent.toLowerCase().contains("mac")) {
+            return "Mac";
+        } else if (userAgent.toLowerCase().contains("x11")) {
+            return "Unix";
+        } else if (userAgent.toLowerCase().contains("android")) {
+            return "Android";
+        } else if (userAgent.toLowerCase().contains("iphone")) {
+            return "IPhone";
+        } else {
+            return "UnKnown";
         }
     }
 }

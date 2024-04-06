@@ -77,5 +77,11 @@ public class UserController extends BaseController{
             int totalPages = (int) Math.ceil((double) totalUsers / 5);
             ctx.render("/public/templates/user-list.html", Map.of("usuarios", usuarios, "totalPages", totalPages, "currentPage", page));
         });
+
+        app.get("/user/close", ctx -> {
+            ctx.removeCookie("rememberedUser");
+            ctx.req().getSession().invalidate();
+            ctx.redirect("/");
+        });
     }
 }
