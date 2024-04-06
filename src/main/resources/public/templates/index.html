@@ -106,12 +106,13 @@
             <tbody>
             <tr th:each="url : ${urls}">
                 <td th:text="${url.urlViejo}"></td>
-                <td th:text="'http://localhost:7000/' + ${url.urlNuevo}"></td>
+<!--                <td th:text="'http://localhost:7000/' + ${url.urlNuevo}"></td>-->
+                <td th:text="${url.urlNuevo}"></td>
                 <td th:text="${url.clicks}"></td>
                 <td id="'qrcode' + ${stat.index}">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#qrModal" th:data-url="'http://localhost:7000/' + ${url.urlNuevo}" onclick="generateQRCode('qrcodeModal', this.getAttribute('data-url'))">Ver QR</button>
                 </td>
-                <td><a href="#">Ver resumen</a></td>
+                <<td><a th:href="'/url/resume/' + ${url.urlNuevo}" th:text="${url.urlNuevo}"></a></td>
                 <script th:inline="javascript">
                     /*<![CDATA[*/
                     function generateQRCode(elementId, shortUrl) {

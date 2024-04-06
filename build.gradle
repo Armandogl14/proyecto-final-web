@@ -29,6 +29,7 @@ dependencies {
     implementation("org.mongodb:mongodb-driver-sync:4.10.2")
     implementation 'eu.bitwalker:UserAgentUtils:1.21'
     implementation 'com.github.ua-parser:uap-java:1.5.2'
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.0")
 }
 
 shadowJar{

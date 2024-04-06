@@ -17,6 +17,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.List;
+import java.util.Map;
 
 public class URLController extends BaseController{
     public URLController(Javalin app) {
@@ -53,6 +55,16 @@ public class URLController extends BaseController{
             } else {
                 ctx.status(404);
             }
+        });
+        app.get("/url/resume/{urlNuevo}", ctx -> {
+            String shortUrl = ctx.pathParam("urlNuevo");
+            System.out.println(shortUrl);
+            List<AccessRecord> accessRecords = AccessRecordServices.getInstance().findByURL(shortUrl);
+            for (AccessRecord accessRecord : accessRecords) {
+                System.out.println(accessRecord.getAccessTime() +" "+accessRecord.getBrowser() +" "+accessRecord.getIpAddress() +" "+accessRecord.getOperatingSystemPlatform() +" "+accessRecord.getUrl());
+            }
+            //ctx.json(accessRecords);
+            ctx.render("/public/templates/resume.html", Map.of("accessRecords", accessRecords));
         });
     }
 

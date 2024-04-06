@@ -8,15 +8,17 @@
     <title>PAGINA INICIO</title>
 
     <!-- font icons -->
-    <link rel="stylesheet" href="assets/vendors/themify-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="/-+
+    assets/vendors/themify-icons/css/themify-icons.css">
 
     <!-- owl carousel -->
     <link rel="stylesheet" href="assets/vendors/owl-carousel/css/owl.carousel.css">
     <link rel="stylesheet" href="assets/vendors/owl-carousel/css/owl.theme.default.css">
 <!--       ecri de las tablas para las estadisticas-->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <!-- Bootstrap + Ollie main styles -->
-    <link rel="stylesheet"  type="text/css"  href="assets/css/ollie.css">
+    <link rel="stylesheet"  type="text/css"  href="/assets/css/ollie.css">
     <style>
         .table-bordered{
             width: 100%;
@@ -55,7 +57,7 @@
     <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
         <div style="width: 80%; margin: auto;">
             <!-- Agrega un lienzo (canvas) para el gráfico -->
-            <canvas id="myChart"></canvas>
+            <canvas id="osChart"></canvas>
         </div>
     </div>
 
@@ -66,84 +68,100 @@
         <table class="table-bordered">
             <thead>
             <tr>
-                <th>Url original</th>
-                <th>Url Recortado</th>
-                <th>Cantidad de accesos</th>
-                <th>Codigo Qr</th>
-                <th>Link de resumen</th>
+                <th>Fecha de acceso</th>
+                <th>Navegador</th>
+                <th>Dirección IP</th>
+                <th>Sistema operativo</th>
+                <th>URL</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="url : ${urls}">
-                <td th:text="${url.urlViejo}"></td>
-                <td th:text="'http://localhost:7000/' + ${url.urlNuevo}"></td>
-                <td th:text="${url.clicks}"></td>
-                <!--               <td><a href="#"><img src="/assets/imgs/png-transparent-qr-code-barcode-scanners-scanner-q-text-rectangle-logo.png class="img-fluid" alt="QR Code"></a></td>-->
-                <td><a href="#">Ver resumen</a></td>
+            <tr th:each="accessRecord : ${accessRecords}">
+                <td th:text="${accessRecord.accessTime}"></td>
+                <td th:text="${accessRecord.browser}"></td>
+                <td th:text="${accessRecord.ipAddress}"></td>
+                <td th:text="${accessRecord.operatingSystemPlatform}"></td>
+                <td th:text="${accessRecord.url}"></td>
             </tr>
             </tbody>
         </table>
     </section>
 </div>
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="logoutModalLabel">Cerrar sesión</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ¿Estás seguro de que quieres cerrar sesión?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <a href="/user/close" class="btn btn-primary">Cerrar sesión</a>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- core  -->
-<script src="assets/vendors/jquery/jquery-3.4.1.js"></script>
-<script src="assets/vendors/bootstrap/bootstrap.bundle.js"></script>
+<script src="/assets/vendors/jquery/jquery-3.4.1.js"></script>
+<script src="/assets/vendors/bootstrap/bootstrap.bundle.js"></script>
 
 <!-- bootstrap 3 affix -->
-<script src="assets/vendors/bootstrap/bootstrap.affix.js"></script>
+<script src="/assets/vendors/bootstrap/bootstrap.affix.js"></script>
 
 <!-- Owl carousel  -->
-<script src="assets/vendors/owl-carousel/js/owl.carousel.js"></script>
+<script src="/assets/vendors/owl-carousel/js/owl.carousel.js"></script>
 
 
 <!-- Ollie js -->
-<script src="assets/js/Ollie.js"></script>
+<script src="/assets/js/Ollie.js"></script>
 <script>
-    // $(document).ready(function() {
-    //     $('#logoutButton').click(function(e) {
-    //         e.preventDefault();
-    //         $('#logoutModal').modal('show');
-    //     });
-    // });
-    // Datos para el gráfico de barras
+    function countOperatingSystems(accessRecords) {
+        var counts = {};
+        accessRecords.forEach(function(accessRecord) {
+            var os = getOperatingSystem(accessRecord.userAgent);
+            counts[os] = (counts[os] || 0) + 1;
+        });
+
+        console.log("Cantidad de veces que se repiten los sistemas operativos:");
+        Object.keys(counts).forEach(function(os) {
+            console.log(os + ": " + counts[os]);
+        });
+
+        return counts;
+    }
+
+    // Función para obtener el sistema operativo a partir del agente de usuario
+    function getOperatingSystem(userAgent) {
+        if (userAgent.toLowerCase().includes("Windows")) {
+            return "Windows";
+        } else if (userAgent.toLowerCase().includes("mac")) {
+            return "Mac";
+        } else if (userAgent.toLowerCase().includes("x11")) {
+            return "Unix";
+        } else if (userAgent.toLowerCase().includes("android")) {
+            return "Android";
+        } else if (userAgent.toLowerCase().includes("iphone")) {
+            return "iPhone";
+        } else {
+            return "Unknown";
+        }
+    }
+
+    // Convertir los datos de accessRecords a un formato adecuado para el gráfico
+    var accessRecords = [
+        // Aquí irían tus registros de acceso
+    ];
+
+    var osCounts = countOperatingSystems(accessRecords);
+
+    // Definir los datos para el gráfico
     var data = {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
+        labels: Object.keys(osCounts),
         datasets: [{
-            label: 'Ventas',
-            data: [12, 19, 3, 5, 2],
+            label: 'Cantidad de veces',
+            data: Object.values(osCounts),
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(255, 206, 86, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
             ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
                 'rgba(54, 162, 235, 1)',
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
             ],
             borderWidth: 1
         }]
@@ -152,21 +170,19 @@
     // Configuración del gráfico
     var options = {
         scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
+            y: {
+                beginAtZero: true
+            }
         }
     };
-
     // Crear el gráfico de barras
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
+    var ctx = document.getElementById('osChart').getContext('2d');
+    var osChart = new Chart(ctx, {
         type: 'bar',
         data: data,
         options: options
     });
+</script>
 </script>
 </body>
 </html>
