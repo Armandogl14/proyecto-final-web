@@ -2,6 +2,8 @@ package org.example.services;
 
 import org.example.clases.AccessRecord;
 
+import java.util.List;
+
 public class AccessRecordServices extends MongoServices<AccessRecord>{
     private static AccessRecordServices instance = null;
     private AccessRecordServices() {
@@ -13,5 +15,9 @@ public class AccessRecordServices extends MongoServices<AccessRecord>{
             instance = new AccessRecordServices();
         }
         return instance;
+    }
+
+    public List<AccessRecord> findByURL(String url) {
+        return this.findByField("url", url).stream().toList();
     }
 }
