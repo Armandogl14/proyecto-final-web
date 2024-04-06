@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.example.clases.Usuario;
 import org.example.services.UserServices;
 
+import java.util.List;
 import java.util.Map;
 
 public class UserController extends BaseController{
@@ -59,6 +60,22 @@ public class UserController extends BaseController{
             else{
                 ctx.render("/public/templates/Login.html", Map.of("error", "Usuario no existe"));
             }
+        });
+
+        app.before("/user/list", ctx -> {
+            Usuario usuario = ctx.sessionAttribute("username");
+            if (usuario == null || !usuario.isAdmin()) {
+                ctx.redirect("/");
+            }
+        });
+
+        app.get("/user/list", ctx -> {
+            String pageParam = ctx.queryParam("page");
+            int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
+            List<Usuario> usuarios = UserServices.getInstance().findAll(page, 5);
+            long totalUsers = UserServices.getInstance().find().count();
+            int totalPages = (int) Math.ceil((double) totalUsers / 5);
+            ctx.render("/public/templates/user-list.html", Map.of("usuarios", usuarios, "totalPages", totalPages, "currentPage", page));
         });
     }
 }

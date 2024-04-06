@@ -58,7 +58,7 @@
                 <tbody>
                 <tr th:each="usuario : ${usuarios}">
                     <td th:text="${usuario.username}"></td>
-                    <td th:text="${usuario.administrator ? 'Si' : 'No'}"></td>
+                    <td th:text="${usuario.admin ? 'Si' : 'No'}"></td>
                     <td style="display: flex;">
                         <a th:href="@{'/user/editar/' + ${usuario.username}}" style="margin-right: 10px;">
                             <button type="button" class="btn btn-primary">Editar</button>
