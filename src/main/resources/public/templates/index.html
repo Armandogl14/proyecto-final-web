@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="assets/vendors/owl-carousel/css/owl.theme.default.css">
 
     <!-- Bootstrap + Ollie main styles -->
-    <link rel="stylesheet" href="assets/css/ollie.css">
+    <link rel="stylesheet"  type="text/css"  href="assets/css/ollie.css">
     <style>
         .table-bordered{
             width: 100%;
@@ -94,10 +94,8 @@
             <tr>
                 <th>Url original</th>
                 <th>Url Recortado</th>
-                <th>IP</th>
                 <th>Cantidad de accesos</th>
                 <th>Codigo Qr</th>
-                <th>Dominio del cliente</th>
                 <th>Link de resumen</th>
             </tr>
             </thead>
@@ -105,9 +103,8 @@
             <tr th:each="url : ${urls}">
                 <td th:text="${url.urlViejo}"></td>
                 <td th:text="${url.urlNuevo}"></td>
-                <td th:text="${url.usuario.ip}"></td> <!-- Asegúrate de que el usuario tenga un campo ip -->
                 <td th:text="${url.clicks}"></td>
-                <td th:text="${url.usuario.dominio}"></td> <!-- Asegúrate de que el usuario tenga un campo dominio -->
+<!--               <td><a href="#"><img src="/assets/imgs/png-transparent-qr-code-barcode-scanners-scanner-q-text-rectangle-logo.png class="img-fluid" alt="QR Code"></a></td>-->
                 <td><a href="#">Ver resumen</a></td>
             </tr>
             </tbody>

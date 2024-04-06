@@ -17,7 +17,7 @@ public class Main {
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add(staticFileConfig -> {
                 staticFileConfig.hostedPath = "/";
-                staticFileConfig.directory = "public";
+                staticFileConfig.directory = "public/templates";
                 staticFileConfig.location = Location.CLASSPATH;
                 staticFileConfig.precompress = false;
                 staticFileConfig.aliasCheck = null;
