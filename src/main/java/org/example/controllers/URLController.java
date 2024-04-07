@@ -70,8 +70,9 @@ public class URLController extends BaseController{
 
     private String generateShortUrl(String originalUrl) {
         try {
+            String originalUrlWithTimestamp = originalUrl + System.currentTimeMillis();
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(originalUrl.getBytes(StandardCharsets.UTF_8));
+            byte[] hash = digest.digest(originalUrlWithTimestamp.getBytes(StandardCharsets.UTF_8));
             String encoded = Base64.getUrlEncoder().encodeToString(hash);
             return encoded.substring(0, 10);
         } catch (NoSuchAlgorithmException e) {
