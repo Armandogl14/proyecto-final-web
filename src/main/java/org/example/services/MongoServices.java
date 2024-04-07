@@ -54,6 +54,11 @@ public class MongoServices<T> {
         return query;
     }
 
+    public void delete(String campo, String valor){
+        Datastore datastore = getConexionMorphia();
+        datastore.find(claseEntidad).filter(Filters.eq(campo, valor)).delete();
+    }
+
     public void deleteById(String id){
         Datastore datastore = getConexionMorphia();
         datastore.find(claseEntidad).filter(Filters.eq("_id", new ObjectId(id))).delete();

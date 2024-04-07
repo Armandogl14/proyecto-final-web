@@ -33,4 +33,8 @@ public class UserServices extends MongoServices<Usuario> {
                 .toList();
         return usuarios;
     }
+
+    public void deleteByUsername(String username) {
+        this.delete("username", username);
+    }
 }
