@@ -43,6 +43,9 @@
                 <li class="nav-item d-none d-sm-inline-block" th:if="${session.username}">
                     <a href="/user/close" id="logoutButton" class="nav-link">Cerrar sesión</a>
                 </li>
+                <li class="nav-item d-none d-sm-inline-block" th:if="${session.username and session.username.admin}">
+                    <a href="/user/list" class="nav-link">User List</a>
+                </li>
             </ul>
         </div>
     </div>
