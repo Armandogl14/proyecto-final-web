@@ -66,6 +66,19 @@ public class URLController extends BaseController{
             //ctx.json(accessRecords);
             ctx.render("/public/templates/resume.html", Map.of("accessRecords", accessRecords));
         });
+
+        app.before("/url/borrar/{urlNuevo}", ctx -> {
+            Usuario usuario = ctx.sessionAttribute("username");
+            if (usuario == null || !usuario.isAdmin()) {
+                ctx.redirect("/");
+            }
+        });
+
+        app.post("/url/borrar/{urlNuevo}", ctx -> {
+            String shortUrl = ctx.pathParam("urlNuevo");
+            URLServices.getInstance().deleteByShortURL(shortUrl);
+            ctx.redirect("/");
+        });
     }
 
     private String generateShortUrl(String originalUrl) {

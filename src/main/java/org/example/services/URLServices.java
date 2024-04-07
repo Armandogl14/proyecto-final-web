@@ -18,4 +18,8 @@ public class URLServices extends MongoServices<URL>{
     public URL findByShortURL(String shortURL) {
         return this.findOne("urlNuevo", shortURL);
     }
+
+    public void deleteByShortURL(String shortURL) {
+        this.delete("urlNuevo", shortURL);
+    }
 }

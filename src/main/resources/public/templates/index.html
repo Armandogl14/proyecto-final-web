@@ -83,7 +83,7 @@
                 <th>Url Recortado</th>
                 <th>Cantidad de accesos</th>
                 <th>Codigo Qr</th>
-                <th>Link de resumen</th>
+                <th th:if="${session.username and session.username.admin}">Link de resumen</th>
             </tr>
             </thead>
             <tbody>
@@ -94,7 +94,7 @@
                 <td id="'qrcode' + ${stat.index}">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#qrModal" th:data-url="'http://localhost:7000/' + ${url.urlNuevo}" onclick="generateQRCode('qrcodeModal', this.getAttribute('data-url'))">Ver QR</button>
                 </td>
-                <td><a th:href="'/url/resume/' + ${url.urlNuevo}" th:text="${url.urlNuevo}"></a></td>
+                <td th:if="${session.username and session.username.admin}"><a th:href="'/url/resume/' + ${url.urlNuevo}" th:text="${url.urlNuevo}"></a></td>
                 <script th:inline="javascript">
                     /*<![CDATA[*/
                     function generateQRCode(elementId, shortUrl) {
@@ -110,6 +110,12 @@
                     }
                     /*]]>*/
                 </script>
+                <td style="display: flex;" th:if="${session.username and session.username.admin}">
+                    <!-- Botón de eliminar -->
+                    <form th:action="@{'/url/borrar/' + ${url.urlNuevo}}" method="post" style="margin: 0;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este url?');">Eliminar</button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>
