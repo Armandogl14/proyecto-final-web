@@ -58,27 +58,7 @@
                 <div class="carousel-item active">
                     <div class="carousel-caption d-none d-md-block">
                         <h1 class="carousel-title">INGRESE SU URL PARA ACORTARLA</h1>
-                        <form action="/url/shorten" method="post">
-                            <input class="form-control" type="text" name="URL" placeholder="Default input" required>
-                            <br>
-                            <input class="btn btn-primary" type="submit" value="Acortar URL">
-                        </form>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h1 class="carousel-title">ENTER YOUR URL TO SHORTEN IT</h1>
-                        <form action="/url/shorten" method="post">
-                            <input class="form-control" type="text" name="URL" placeholder="Default input" required>
-                            <br>
-                            <input class="btn btn-primary" type="submit" value="Acortar URL">
-                        </form>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h1 class="carousel-title">ENTREZ VOTRE URL POUR LA RACCOURCIR</h1>
-                        <form action="/url/shorten" method="post">
+                        <form id="shortenUrlForm" action="/url/shorten" method="post">
                             <input class="form-control" type="text" name="URL" placeholder="Default input" required>
                             <br>
                             <input class="btn btn-primary" type="submit" value="Acortar URL">
@@ -196,10 +176,6 @@
 <!-- bootstrap 3 affix -->
 <script src="assets/vendors/bootstrap/bootstrap.affix.js"></script>
 
-<!-- Owl carousel  -->
-<script src="assets/vendors/owl-carousel/js/owl.carousel.js"></script>
-
-
 <!-- Ollie js -->
 <script src="assets/js/Ollie.js"></script>
 <script>
@@ -214,8 +190,8 @@
     /*<![CDATA[*/
     $(document).ready(function() {
         $('#shortenUrlForm').on('submit', function(e) {
-            var username = /*[[${session.username}]]*/ 'null';
-            if (username == 'null') {
+            var username = /*[[${session.username}]]*/ null;
+            if (username == null) {
                 e.preventDefault();
                 $('#loginModal').modal('show');
             }
