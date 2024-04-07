@@ -17,6 +17,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,8 +64,11 @@ public class URLController extends BaseController{
             for (AccessRecord accessRecord : accessRecords) {
                 System.out.println(accessRecord.getAccessTime() +" "+accessRecord.getBrowser() +" "+accessRecord.getIpAddress() +" "+accessRecord.getOperatingSystemPlatform() +" "+accessRecord.getUrl());
             }
-            //ctx.json(accessRecords);
-            ctx.render("/public/templates/resume.html", Map.of("accessRecords", accessRecords));
+            Map<String, Object> model = new HashMap<>();
+            model.put("accessRecords", accessRecords);
+            model.put("urlNuevo", shortUrl);
+//            ctx.json(accessRecords);
+            ctx.render("/public/templates/resume.html", model);
         });
     }
 
