@@ -102,74 +102,46 @@
 <!-- Ollie js -->
 <script src="/assets/js/Ollie.js"></script>
 <script>
-    function countOperatingSystems(accessRecords) {
-    var counts = {};
-    accessRecords.forEach(function(accessRecord) {
-        var os = accessRecord.operatingSystemPlatform;
-        counts[os] = (counts[os] || 0) + 1;
+    // Convertir los datos de accessRecords a un formato adecuado para el gráfico
+    var accessRecords = /*[[${accessRecords}]]*/ [];
+
+    // Extraer los tiempos de acceso
+    var accessTimes = accessRecords.map(function(record) {
+        return record.accessTime;
     });
 
-    // Imprimir las cantidades en la consola
-    console.log("Cantidad de veces que se repiten los sistemas operativos:");
-    Object.keys(counts).forEach(function(os) {
-        console.log(os + ": " + counts[os]);
-    });
-
-    return counts;
-}
-
-// Convertir los datos de accessRecords a un formato adecuado para el gráfico
-fetch('/access-records')
-    .then(response => response.json())
-    .then(accessRecords => {
-        var osCounts = countOperatingSystems(accessRecords);
-
-        // Definir los datos para el gráfico
-        var data = {
-            labels: Object.keys(osCounts),
+    // Crear un gráfico de línea con Chart.js
+    var ctx = document.getElementById('accessChart').getContext('2d');
+    var accessChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: accessTimes,
             datasets: [{
-                label: 'Cantidad de veces',
-                data: Object.values(osCounts),
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
+                label: 'Hora de Acceso',
+                data: accessTimes,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
             }]
-        };
-
-        // Configuración del gráfico
-        var options = {
+        },
+        options: {
             scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
+                x: {
+                    type: 'time',
+                    time: {
+                        displayFormats: {
+                            hour: 'HH:mm' // Formato de visualización de la hora
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Hora de Acceso'
                     }
-                }]
+                }
             }
-        };
-
-        // Crear el gráfico de barras
-        var ctx = document.getElementById('osChart').getContext('2d');
-        var osChart = new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: options
-        });
+        }
     });
 </script>
-</script>
+
 </body>
 </html>
