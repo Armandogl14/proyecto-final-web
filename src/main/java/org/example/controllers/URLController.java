@@ -57,6 +57,7 @@ public class URLController extends BaseController{
                 ctx.status(404);
             }
         });
+
         app.get("/url/resume/{urlNuevo}", ctx -> {
             String shortUrl = ctx.pathParam("urlNuevo");
             System.out.println(shortUrl);
@@ -67,7 +68,6 @@ public class URLController extends BaseController{
             Map<String, Object> model = new HashMap<>();
             model.put("accessRecords", accessRecords);
             model.put("urlNuevo", shortUrl);
-//            ctx.json(accessRecords);
             ctx.render("/public/templates/resume.html", model);
         });
 
