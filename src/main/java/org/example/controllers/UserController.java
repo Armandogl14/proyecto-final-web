@@ -83,5 +83,23 @@ public class UserController extends BaseController{
             ctx.req().getSession().invalidate();
             ctx.redirect("/");
         });
+
+        app.post("/user/admin/{username}", ctx -> {
+            String username = ctx.pathParam("username");
+            Usuario user = UserServices.getInstance().findByUsername(username);
+            user.setAdmin(true);
+            UserServices.getInstance().update(user);
+            ctx.redirect("/user/list");
+        });
+
+        app.post("/user/borrar/{username}", ctx -> {
+            String username = ctx.pathParam("username");
+            if (username.equals("admin")) {
+                ctx.redirect("/user/list");
+                return;
+            }
+            UserServices.getInstance().deleteByUsername(username);
+            ctx.redirect("/user/list");
+        });
     }
 }

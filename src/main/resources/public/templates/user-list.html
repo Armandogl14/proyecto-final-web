@@ -61,11 +61,11 @@
                     <td th:text="${usuario.username}"></td>
                     <td th:text="${usuario.admin ? 'Si' : 'No'}"></td>
                     <td style="display: flex;">
-                        <a th:href="@{'/user/editar/' + ${usuario.username}}" style="margin-right: 10px;">
-                            <button type="button" class="btn btn-primary">Editar</button>
-                        </a>
+                        <form th:action="@{'/user/admin/' + ${usuario.username}}" method="post" style="margin: 0;">
+                            <button type="submit" class="btn btn-primary" onclick="return confirm('¿Otorgar permisos?');">Hacer admin</button>
+                        </form>
                         <!-- Botón de eliminar -->
-                        <form action="@{'/user/borrar/' + ${usuario.username}}" method="post" style="margin: 0;">
+                        <form th:action="@{'/user/borrar/' + ${usuario.username}}" method="post" style="margin: 0;">
                             <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?');">Eliminar</button>
                         </form>
                     </td>
