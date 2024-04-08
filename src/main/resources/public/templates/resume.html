@@ -17,6 +17,7 @@
 <!--       ecri de las tablas para las estadisticas-->
 <!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/adapters/moment.min.js"></script>
     <!-- Bootstrap + Ollie main styles -->
     <link rel="stylesheet"  type="text/css"  href="/assets/css/ollie.css">
     <style>
@@ -57,7 +58,8 @@
     <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
         <div style="width: 80%; margin: auto;">
             <!-- Agrega un lienzo (canvas) para el gráfico -->
-            <canvas id="osChart"></canvas>
+            <div id="accessRecords" style="display: none;" th:text="${accessRecords}"></div>
+            <canvas id="accessChart"></canvas>
         </div>
     </div>
 
@@ -102,15 +104,15 @@
 <!-- Ollie js -->
 <script src="/assets/js/Ollie.js"></script>
 <script>
-    // Convertir los datos de accessRecords a un formato adecuado para el gráfico
-    var accessRecords = /*[[${accessRecords}]]*/ [];
+    // Extrae los datos de acceso desde el elemento oculto en el DOM
+    var accessRecords = document.getElementById('accessRecords').innerText;
 
-    // Extraer los tiempos de acceso
+    // Extrae los tiempos de acceso de los registros
     var accessTimes = accessRecords.map(function(record) {
         return record.accessTime;
     });
 
-    // Crear un gráfico de línea con Chart.js
+    // Crea un gráfico de línea con Chart.js utilizando los tiempos de acceso
     var ctx = document.getElementById('accessChart').getContext('2d');
     var accessChart = new Chart(ctx, {
         type: 'line',
