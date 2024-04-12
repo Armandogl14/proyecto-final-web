@@ -83,22 +83,39 @@ public class URLController extends BaseController{
 //        =================================REST services=================================================================
         // (a) Listado de las URL publicadas por un usuario incluyendo las estadísticas asociadas.
         app.get("/url/api-list", ctx -> {
-            Usuario usuario = ctx.sessionAttribute("username");
-            System.out.println(usuario.getUsername());
-            String username = usuario.getUsername();
-            List<URL> urls = URLServices.getInstance().findByUsername(username);
-//            List<AccessRecord> accessRecords = new ArrayList<>(); // Inicializa como lista vacía
-//            for (URL url : urls) {
-//                List<AccessRecord> records = AccessRecordServices.getInstance().findByURL(url.getUrlNuevo());
-//                if (records != null) {
-//                    accessRecords.addAll(records);
-//                }
-//            }
+//            Usuario usuario = ctx.sessionAttribute("username");
+//            System.out.println(usuario.getUsername());
+//            String username = usuario.getUsername();
+//            List<URL> urls = URLServices.getInstance().findByUsername(username);
+            List<URL> urls = URLServices.getInstance().find().stream().toList();
             Map<String, Object> model = new HashMap<>();
             model.put("urls", urls);
 //            model.put("accessRecords", accessRecords);
             ctx.json(model);
         });
+        app.get("/url/api-acess", ctx -> {
+            List<URL> urls = URLServices.getInstance().find().stream().toList();
+            List<AccessRecord> accessRecords = new ArrayList<>(); // Inicializa como lista vacía
+            for (URL url : urls) {
+                List<AccessRecord> records = AccessRecordServices.getInstance().findByURL(url.getUrlNuevo());
+                if (!records.isEmpty()) {
+                    AccessRecord accessRecord = records.get(0);
+                    accessRecords.add(accessRecord);
+                    System.out.println(accessRecord.getAccessTime() + " " + accessRecord.getBrowser() + " " + accessRecord.getIpAddress() + " " + accessRecord.getOperatingSystemPlatform() + " " + accessRecord.getUrl());
+                }
+            }
+            Map<String, Object> model = new HashMap<>();
+            if(accessRecords.isEmpty()){
+                ctx.status(404);
+                System.out.println("No hay registros de acceso");
+            }else {
+                model.put("accessRecords", accessRecords);
+                //ctx.json(model);
+                System.out.println("Registros de acceso");
+            }
+
+        });
+
 
 // (b) Creación de registro de URL para un usuario retornando la estructura básica
         app.post("/url/crear", ctx -> {
