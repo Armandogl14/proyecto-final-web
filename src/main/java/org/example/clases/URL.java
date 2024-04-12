@@ -5,6 +5,8 @@ import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Reference;
 import org.bson.types.ObjectId;
 
+import java.util.Date;
+
 @Entity("URL")
 public class URL {
     @Id
@@ -14,6 +16,7 @@ public class URL {
     private String usuario;
     private boolean activo;
     private int clicks;
+    private Date fechaCreacion;
 
     public URL(ObjectId id, String urlViejo, String urlNuevo, String usuario, boolean activo) {
         this.id = id;
@@ -22,6 +25,7 @@ public class URL {
         this.usuario = usuario;
         this.activo = activo;
         this.clicks = 0;
+        this .fechaCreacion = new Date();
     }
 
     public URL() {
@@ -73,5 +77,13 @@ public class URL {
 
     public void setClicks(int clicks) {
         this.clicks = clicks;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 }
