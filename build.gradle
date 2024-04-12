@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.google.protobuf' version '0.9.4'
     id 'application'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
@@ -30,6 +31,29 @@ dependencies {
     implementation 'eu.bitwalker:UserAgentUtils:1.21'
     implementation 'com.github.ua-parser:uap-java:1.5.2'
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.0")
+    runtimeOnly 'io.grpc:grpc-netty-shaded:1.62.2'
+    implementation 'io.grpc:grpc-protobuf:1.62.2'
+    implementation 'io.grpc:grpc-stub:1.62.2'
+    compileOnly 'org.apache.tomcat:annotations-api:6.0.53' // necessary for Java 9+
+    implementation 'com.google.protobuf:protobuf-java:3.25.3'
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.25.1"
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.62.2'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+
+    //generatedFilesBaseDir = "$projectDir/generated"
 }
 
 shadowJar{
