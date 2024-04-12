@@ -16,10 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class URLController extends BaseController{
     public URLController(Javalin app) {
@@ -63,7 +60,7 @@ public class URLController extends BaseController{
             System.out.println(shortUrl);
             List<AccessRecord> accessRecords = AccessRecordServices.getInstance().findByURL(shortUrl);
             for (AccessRecord accessRecord : accessRecords) {
-                System.out.println(accessRecord.getAccessTime() +" "+accessRecord.getBrowser() +" "+accessRecord.getIpAddress() +" "+accessRecord.getOperatingSystemPlatform() +" "+accessRecord.getUrl());
+                System.out.println(accessRecord.getAccessTime() + " " + accessRecord.getBrowser() + " " + accessRecord.getIpAddress() + " " + accessRecord.getOperatingSystemPlatform() + " " + accessRecord.getUrl());
             }
             Map<String, Object> model = new HashMap<>();
             model.put("accessRecords", accessRecords);
@@ -85,17 +82,47 @@ public class URLController extends BaseController{
         });
 //        =================================REST services=================================================================
         // (a) Listado de las URL publicadas por un usuario incluyendo las estadísticas asociadas.
-        app.get("/url/usuario/{username}", ctx -> {
-            String username = ctx.pathParam("username");
+        app.get("/url/api-list", ctx -> {
+            Usuario usuario = ctx.sessionAttribute("username");
+            System.out.println(usuario.getUsername());
+            String username = usuario.getUsername();
             List<URL> urls = URLServices.getInstance().findByUsername(username);
-            List<AccessRecord> accessRecords = AccessRecordServices.getInstance().findByUsername(username);
+//            List<AccessRecord> accessRecords = new ArrayList<>(); // Inicializa como lista vacía
+//            for (URL url : urls) {
+//                List<AccessRecord> records = AccessRecordServices.getInstance().findByURL(url.getUrlNuevo());
+//                if (records != null) {
+//                    accessRecords.addAll(records);
+//                }
+//            }
             Map<String, Object> model = new HashMap<>();
             model.put("urls", urls);
-            model.put("accessRecords", accessRecords);
+//            model.put("accessRecords", accessRecords);
             ctx.json(model);
         });
-    }
 
+// (b) Creación de registro de URL para un usuario retornando la estructura básica
+        app.post("/url/crear", ctx -> {
+            String originalUrl = ctx.formParam("URL");
+            String shortUrl = generateShortUrl(originalUrl);
+            Usuario user = ctx.sessionAttribute("username");
+            URL url = new URL(new ObjectId(), originalUrl, shortUrl, user.getUsername(), true);
+            URLServices.getInstance().crear(url);
+            AccessRecord accessRecord = new AccessRecord();
+            accessRecord.setAccessTime(LocalDateTime.now());
+            accessRecord.setBrowser(getBrowserName(ctx.userAgent()));
+            accessRecord.setIpAddress(ctx.ip());
+            accessRecord.setOperatingSystemPlatform(getOperatingSystem(ctx.userAgent()));
+            accessRecord.setUrl(url.getUrlNuevo());
+            AccessRecordServices.getInstance().crear(accessRecord);
+            //String siteImageBase64 = getSiteImageBase64(originalUrl);
+            Map<String, Object> model = new HashMap<>();
+            model.put("url", url);
+            model.put("accessRecord", accessRecord);
+            //model.put("siteImageBase64", siteImageBase64);
+            ctx.json(model);
+        });
+
+    }
     private String generateShortUrl(String originalUrl) {
         try {
             String originalUrlWithTimestamp = originalUrl + System.currentTimeMillis();
