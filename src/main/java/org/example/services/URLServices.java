@@ -2,6 +2,8 @@ package org.example.services;
 
 import org.example.clases.URL;
 
+import java.util.List;
+
 public class URLServices extends MongoServices<URL>{
     private static URLServices instance = null;
     private URLServices() {
@@ -17,6 +19,10 @@ public class URLServices extends MongoServices<URL>{
 
     public URL findByShortURL(String shortURL) {
         return this.findOne("urlNuevo", shortURL);
+    }
+
+    public List<URL> findByUsername(String username) {
+        return this.findByField("usuario", username).stream().toList();
     }
 
     public void deleteByShortURL(String shortURL) {
