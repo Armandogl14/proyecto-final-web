@@ -83,6 +83,17 @@ public class URLController extends BaseController{
             URLServices.getInstance().deleteByShortURL(shortUrl);
             ctx.redirect("/");
         });
+//        =================================REST services=================================================================
+        // (a) Listado de las URL publicadas por un usuario incluyendo las estadísticas asociadas.
+        app.get("/url/usuario/{username}", ctx -> {
+            String username = ctx.pathParam("username");
+            List<URL> urls = URLServices.getInstance().findByUsername(username);
+            List<AccessRecord> accessRecords = AccessRecordServices.getInstance().findByUsername(username);
+            Map<String, Object> model = new HashMap<>();
+            model.put("urls", urls);
+            model.put("accessRecords", accessRecords);
+            ctx.json(model);
+        });
     }
 
     private String generateShortUrl(String originalUrl) {
