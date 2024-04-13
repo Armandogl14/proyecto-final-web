@@ -8,6 +8,7 @@ import org.example.clases.URL;
 import org.example.clases.Usuario;
 import org.example.services.AccessRecordServices;
 import org.example.services.URLServices;
+import org.example.services.UserServices;
 import ua_parser.Client;
 import ua_parser.Parser;
 
@@ -17,6 +18,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class URLController extends BaseController{
     public URLController(Javalin app) {
@@ -82,19 +85,23 @@ public class URLController extends BaseController{
         });
 //        =================================REST services=================================================================
         // (a) Listado de las URL publicadas por un usuario incluyendo las estadísticas asociadas.
-        app.get("/url/api-list", ctx -> {
-//            Usuario usuario = ctx.sessionAttribute("username");
-//            System.out.println(usuario.getUsername());
-//            String username = usuario.getUsername();
-//            List<URL> urls = URLServices.getInstance().findByUsername(username);
-            List<URL> urls = URLServices.getInstance().find().stream().toList();
+        app.get("/url/api-list/{username}", ctx -> {
+             Usuario usuario = UserServices.getInstance().findByUsername(ctx.pathParam("username"));
+            System.out.println(usuario.getUsername());
+            String username = usuario.getUsername();
+            List<URL> urls = URLServices.getInstance().findByUsername(username);
+//            List<URL> urls = URLServices.getInstance().find().stream().toList();
+
             Map<String, Object> model = new HashMap<>();
             model.put("urls", urls);
-//            model.put("accessRecords", accessRecords);
-            ctx.json(model);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            String json = mapper.writeValueAsString(model);
+            ctx.json(json);
         });
-        app.get("/url/api-acess", ctx -> {
-            List<URL> urls = URLServices.getInstance().find().stream().toList();
+        app.get("/url/api-acess/{username}", ctx -> {
+            Usuario usuario = UserServices.getInstance().findByUsername(ctx.pathParam("username"));
+            List<URL> urls = URLServices.getInstance().findByUsername(usuario.getUsername());
             List<AccessRecord> accessRecords = new ArrayList<>(); // Inicializa como lista vacía
             for (URL url : urls) {
                 List<AccessRecord> records = AccessRecordServices.getInstance().findByURL(url.getUrlNuevo());
@@ -105,12 +112,15 @@ public class URLController extends BaseController{
                 }
             }
             Map<String, Object> model = new HashMap<>();
+            model.put("accessRecords", accessRecords);
             if(accessRecords.isEmpty()){
                 ctx.status(404);
                 System.out.println("No hay registros de acceso");
-            }else {
-                model.put("accessRecords", accessRecords);
-                //ctx.json(model);
+            }else { // Si hay registros de acceso
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.registerModule(new JavaTimeModule());
+                String json = mapper.writeValueAsString(model);
+                ctx.result(json);
                 System.out.println("Registros de acceso");
             }
 
@@ -118,24 +128,16 @@ public class URLController extends BaseController{
 
 
 // (b) Creación de registro de URL para un usuario retornando la estructura básica
-        app.post("/url/crear", ctx -> {
-            String originalUrl = ctx.formParam("URL");
+        app.post("/url/crear/{url_original}", ctx -> {
+            String originalUrl = ctx.pathParam("url_original");
             String shortUrl = generateShortUrl(originalUrl);
-            Usuario user = ctx.sessionAttribute("username");
-            URL url = new URL(new ObjectId(), originalUrl, shortUrl, user.getUsername(), true);
+//            Usuario user = UserServices.getInstance().findByUsername(ctx.pathParam("usuario"));
+            URL url = new URL(new ObjectId(), originalUrl, shortUrl,"admin", true);
             URLServices.getInstance().crear(url);
-            AccessRecord accessRecord = new AccessRecord();
-            accessRecord.setAccessTime(LocalDateTime.now());
-            accessRecord.setBrowser(getBrowserName(ctx.userAgent()));
-            accessRecord.setIpAddress(ctx.ip());
-            accessRecord.setOperatingSystemPlatform(getOperatingSystem(ctx.userAgent()));
-            accessRecord.setUrl(url.getUrlNuevo());
-            AccessRecordServices.getInstance().crear(accessRecord);
             //String siteImageBase64 = getSiteImageBase64(originalUrl);
             Map<String, Object> model = new HashMap<>();
             model.put("url", url);
-            model.put("accessRecord", accessRecord);
-            //model.put("siteImageBase64", siteImageBase64);
+//
             ctx.json(model);
         });
 

@@ -1,9 +1,18 @@
 package org.example.controllers;
 
 import io.javalin.Javalin;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.bson.types.ObjectId;
 import org.example.clases.Usuario;
 import org.example.services.UserServices;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKey;
 
 import java.util.List;
 import java.util.Map;
@@ -59,6 +68,18 @@ public class UserController extends BaseController{
             }
             else{
                 ctx.render("/public/templates/Login.html", Map.of("error", "Usuario no existe"));
+            }
+        });
+        app.post("/user/tokenJWS/{usuario}", ctx -> {
+            String username = ctx.formParam("usuario");
+            Usuario user = UserServices.getInstance().findByUsername(username);
+            if (user != null) {
+                SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Genera una clave segura
+                String token = Jwts.builder().setSubject(user.getUsername()).signWith(key).compact(); // Usa la clave para firmar el JWT
+                ctx.sessionAttribute("username", user);
+                ctx.result(token);
+            } else {
+                ctx.status(404);
             }
         });
 

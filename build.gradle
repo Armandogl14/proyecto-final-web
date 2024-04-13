@@ -36,6 +36,10 @@ dependencies {
     implementation 'io.grpc:grpc-stub:1.62.2'
     compileOnly 'org.apache.tomcat:annotations-api:6.0.53' // necessary for Java 9+
     implementation 'com.google.protobuf:protobuf-java:3.25.3'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.3'
+    implementation 'io.jsonwebtoken:jjwt-api:0.10.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.10.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.10.5'
 }
 
 protobuf {
