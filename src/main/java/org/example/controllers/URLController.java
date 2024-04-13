@@ -2,6 +2,7 @@ package org.example.controllers;
 
 import eu.bitwalker.useragentutils.UserAgent;
 import io.javalin.Javalin;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.bson.types.ObjectId;
 import org.example.clases.AccessRecord;
 import org.example.clases.URL;
@@ -20,6 +21,11 @@ import java.time.LocalDateTime;
 import java.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javax.crypto.SecretKey;
 
 public class URLController extends BaseController{
     public URLController(Javalin app) {
@@ -120,6 +126,16 @@ public class URLController extends BaseController{
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.registerModule(new JavaTimeModule());
                 String json = mapper.writeValueAsString(model);
+                // Genera una clave segura
+                SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+                // Crea el JWT
+                String jwt = Jwts.builder()
+                        .setSubject(json)
+                        .signWith(key)
+                        .compact();
+
+                System.out.println("JWT: " + jwt);
                 ctx.result(json);
                 System.out.println("Registros de acceso");
             }

@@ -1,317 +1,4 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="utf-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
-<!--    <meta name="description" content="Start your development with Ollie landing page.">-->
-<!--    <meta name="author" content="Devcrud">-->
-<!--    <title>PAGINA INICIO</title>-->
 
-<!--    &lt;!&ndash; font icons &ndash;&gt;-->
-<!--    <link rel="stylesheet" href="/-+-->
-<!--    assets/vendors/themify-icons/css/themify-icons.css">-->
-
-<!--    &lt;!&ndash; owl carousel &ndash;&gt;-->
-<!--&lt;!&ndash;    <link rel="stylesheet" href="assets/vendors/owl-carousel/css/owl.carousel.css">&ndash;&gt;-->
-<!--    <link rel="stylesheet" href="assets/vendors/owl-carousel/css/owl.theme.default.css">-->
-<!--&lt;!&ndash;       ecri de las tablas para las estadisticas&ndash;&gt;-->
-<!--&lt;!&ndash;    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>&ndash;&gt;-->
-<!--&lt;!&ndash;    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>&ndash;&gt;-->
-<!--&lt;!&ndash;    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>&ndash;&gt;-->
-<!--    <script src="/assets/js/moment.min.js"></script>-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
-<!--    &lt;!&ndash; Bootstrap + Ollie main styles &ndash;&gt;-->
-<!--    <link rel="stylesheet"  type="text/css"  href="/assets/css/ollie.css">-->
-<!--    <style>-->
-<!--        .table-bordered{-->
-<!--            width: 100%;-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">-->
-
-<!--<nav id="scrollspy" class="navbar navbar-light bg-light navbar-expand-lg fixed-top" data-spy="affix" data-offset-top="20">-->
-<!--    <div class="container">-->
-<!--        <a class="navbar-brand" href="#"><img src="assets/imgs/brand.svg" alt="" class="brand-img"></a>-->
-<!--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--            <span class="navbar-toggler-icon"></span>-->
-<!--        </button>-->
-
-<!--        <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--            <ul class="navbar-nav ml-auto">-->
-<!--                <li class="nav-item d-none d-sm-inline-block" th:unless="${session.username}">-->
-<!--                    <a href="/user/login" class="nav-link">Iniciar Sesion</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item d-none d-sm-inline-block" th:unless="${session.username}">-->
-<!--                    <a href="/user/register" class="nav-link">Registrar</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item d-none d-sm-inline-block" th:if="${session.username}">-->
-<!--                    <a href="/user/close" id="logoutButton" class="nav-link">Cerrar sesión</a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</nav>-->
-
-
-<!--<header id="home" class="header">-->
-<!--    <div class="overlay"></div>-->
-
-<!--&lt;!&ndash;    <div id="header-carousel" >&ndash;&gt;-->
-<!--&lt;!&ndash;        <div style="width: 80%; margin: auto;">&ndash;&gt;-->
-<!--&lt;!&ndash;            >&ndash;&gt;-->
-<!--&lt;!&ndash;            <div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <canvas id="browsersChart" width="100" height="100"></canvas>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;            <div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <canvas id="osChart" width="100" height="100"></canvas>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;            <div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <canvas id="datesChart" width="100" height="100"></canvas>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-
-<!--</header>-->
-<!--<div class="container">-->
-<!--    <div style="width: 80%; margin: auto;">-->
-<!--        <div>-->
-<!--            <canvas id="browsersChart" width="100" height="100"></canvas>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <canvas id="osChart" width="100" height="100"></canvas>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <canvas id="datesChart" width="100" height="100"></canvas>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <section id="contact" class="section pb-0">-->
-
-<!--        <table class="table-bordered">-->
-<!--            <thead>-->
-<!--            <tr>-->
-<!--                <th>Fecha de acceso</th>-->
-<!--                <th>Navegador</th>-->
-<!--                <th>Dirección IP</th>-->
-<!--                <th>Sistema operativo</th>-->
-<!--                <th>URL</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody>-->
-<!--            <tr th:each="accessRecord : ${accessRecords}">-->
-<!--                <td th:text="${accessRecord.accessTime}"></td>-->
-<!--                <td th:text="${accessRecord.browser}"></td>-->
-<!--                <td th:text="${accessRecord.ipAddress}"></td>-->
-<!--                <td th:text="${accessRecord.operatingSystemPlatform}"></td>-->
-<!--                <td th:text="${accessRecord.url}"></td>-->
-<!--            </tr>-->
-<!--            </tbody>-->
-<!--        </table>-->
-<!--    </section>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; core  &ndash;&gt;-->
-<!--<script src="/assets/vendors/jquery/jquery-3.4.1.js"></script>-->
-<!--<script src="/assets/vendors/bootstrap/bootstrap.bundle.js"></script>-->
-
-<!--&lt;!&ndash; bootstrap 3 affix &ndash;&gt;-->
-<!--<script src="/assets/vendors/bootstrap/bootstrap.affix.js"></script>-->
-
-<!--&lt;!&ndash; Owl carousel  &ndash;&gt;-->
-<!--<script src="/assets/vendors/owl-carousel/js/owl.carousel.js"></script>-->
-
-
-<!--&lt;!&ndash; Ollie js &ndash;&gt;-->
-<!--<script src="/assets/js/Ollie.js"></script>-->
-<!--<script>-->
-<!--    document.addEventListener("DOMContentLoaded", () => {-->
-<!--        document.addEventListener("DOMContentLoaded", () => {-->
-<!--            const table = document.querySelector(".table-bordered");-->
-<!--            const rows = Array.from(table.rows).slice(1); // Skip the header row-->
-
-<!--            const accessRecords = rows.map(row => {-->
-<!--                const cells = row.cells;-->
-<!--                return {-->
-<!--                    accessTime: cells[0].innerText,-->
-<!--                    browser: cells[1].innerText,-->
-<!--                    ipAddress: cells[2].innerText,-->
-<!--                    operatingSystemPlatform: cells[3].innerText,-->
-<!--                    url: cells[4].innerText-->
-<!--                };-->
-<!--            });-->
-
-<!--            const visitorData = processAccessRecords(accessRecords);-->
-<!--            browsersGraph(visitorData.browserCounts);-->
-<!--            osGraph(visitorData.osCounts);-->
-<!--            datesGraph(visitorData.visitorDates);-->
-<!--            iptable(visitorData.ipCounts);-->
-<!--        });-->
-
-<!--        function processAccessRecords(accessRecords) {-->
-<!--            const visitorData = {-->
-<!--                browserCounts: {},-->
-<!--                osCounts: {},-->
-<!--                visitorDates: [],-->
-<!--                ipCounts: {}-->
-<!--            };-->
-
-<!--            accessRecords.forEach(record => {-->
-<!--                // Process browser counts-->
-<!--                if (record.browser in visitorData.browserCounts) {-->
-<!--                    visitorData.browserCounts[record.browser]++;-->
-<!--                } else {-->
-<!--                    visitorData.browserCounts[record.browser] = 1;-->
-<!--                }-->
-
-<!--                // Process OS counts-->
-<!--                if (record.operatingSystemPlatform in visitorData.osCounts) {-->
-<!--                    visitorData.osCounts[record.operatingSystemPlatform]++;-->
-<!--                } else {-->
-<!--                    visitorData.osCounts[record.operatingSystemPlatform] = 1;-->
-<!--                }-->
-
-<!--                // Process visitor dates-->
-<!--                visitorData.visitorDates.push(record.accessTime);-->
-
-<!--                // Process IP counts-->
-<!--                if (record.ipAddress in visitorData.ipCounts) {-->
-<!--                    visitorData.ipCounts[record.ipAddress]++;-->
-<!--                } else {-->
-<!--                    visitorData.ipCounts[record.ipAddress] = 1;-->
-<!--                }-->
-<!--            });-->
-
-<!--            return visitorData;-->
-<!--        }-->
-
-<!--        function browsersGraph(browserCounts) {-->
-<!--            const ctx = document.getElementById('browsersChart');-->
-<!--            if (Object.keys(browserCounts).length === 0) {-->
-<!--                ctx.parentElement.innerHTML = "<h1>No data available</h1>";-->
-<!--            } else {-->
-<!--                const backgroundColors = Object.keys(browserCounts).map(() => {-->
-<!--                    const r = Math.floor(Math.random() * 256);-->
-<!--                    const g = Math.floor(Math.random() * 256);-->
-<!--                    const b = Math.floor(Math.random() * 256);-->
-<!--                    return `rgb(${r}, ${g}, ${b})`;-->
-<!--                });-->
-
-<!--                const data = {-->
-<!--                    labels: Object.keys(browserCounts),-->
-<!--                    datasets: [{-->
-<!--                        label: 'Visits',-->
-<!--                        data: Object.values(browserCounts),-->
-<!--                        backgroundColor: backgroundColors,-->
-<!--                        hoverOffset: 4-->
-<!--                    }]-->
-<!--                };-->
-
-<!--                const config = {-->
-<!--                    type: 'doughnut',-->
-<!--                    data: data,-->
-<!--                };-->
-
-<!--                new Chart(ctx, config);-->
-<!--            }-->
-<!--        }-->
-
-<!--        function osGraph(osCounts) {-->
-<!--            const ctx = document.getElementById('osChart');-->
-<!--            if (Object.keys(osCounts).length === 0) {-->
-<!--                ctx.parentElement.innerHTML = "<h1>No data available</h1>";-->
-<!--            } else {-->
-<!--                const backgroundColors = Object.keys(osCounts).map(() => {-->
-<!--                    const r = Math.floor(Math.random() * 256);-->
-<!--                    const g = Math.floor(Math.random() * 256);-->
-<!--                    const b = Math.floor(Math.random() * 256);-->
-<!--                    return `rgb(${r}, ${g}, ${b})`;-->
-<!--                });-->
-
-<!--                const data = {-->
-<!--                    labels: Object.keys(osCounts),-->
-<!--                    datasets: [{-->
-<!--                        label: 'Visits',-->
-<!--                        data: Object.values(osCounts),-->
-<!--                        backgroundColor: backgroundColors,-->
-<!--                        hoverOffset: 4-->
-<!--                    }]-->
-<!--                };-->
-
-<!--                const config = {-->
-<!--                    type: 'doughnut',-->
-<!--                    data: data,-->
-<!--                };-->
-
-<!--                new Chart(ctx, config);-->
-<!--            }-->
-<!--        }-->
-
-<!--        function datesGraph(dates) {-->
-<!--            const ctx = document.getElementById('datesChart');-->
-<!--            if (dates.length === 0) {-->
-<!--                ctx.parentElement.innerHTML = "<h1>No data available</h1>";-->
-<!--            } else {-->
-<!--                const dateLabels = dates.map(date => new Date(date).toLocaleString());-->
-<!--                const visitCounts = {};-->
-
-<!--                for (let i = 0; i < dates.length; i++) {-->
-<!--                    const date = new Date(dates[i]);-->
-<!--                    const dateStr = date.toDateString();-->
-<!--                    const hourStr = date.getHours();-->
-<!--                    const key = `${dateStr} ${hourStr}:00`;-->
-<!--                    if (key in visitCounts) {-->
-<!--                        visitCounts[key]++;-->
-<!--                    } else {-->
-<!--                        visitCounts[key] = 1;-->
-<!--                    }-->
-<!--                }-->
-
-<!--                const data = {-->
-<!--                    labels: Object.keys(visitCounts),-->
-<!--                    datasets: [{-->
-<!--                        label: 'Visits',-->
-<!--                        data: Object.values(visitCounts),-->
-<!--                        fill: true,-->
-<!--                        borderColor: 'rgb(75, 192, 192)',-->
-<!--                        tension: 0.1-->
-<!--                    }]-->
-<!--                };-->
-
-<!--                const config = {-->
-<!--                    type: 'line',-->
-<!--                    data: data,-->
-<!--                    options: {-->
-<!--                        scales: {-->
-<!--                            y: {-->
-<!--                                beginAtZero: true-->
-<!--                            }-->
-<!--                        }-->
-<!--                    }-->
-<!--                };-->
-
-<!--                new Chart(ctx, config);-->
-<!--            }-->
-<!--        }-->
-
-<!--        function iptable(ipCount) {-->
-<!--            const table = document.getElementById('ipsTable');-->
-<!--            const tbody = table.querySelector("tbody");-->
-<!--            if (Object.keys(ipCount).length === 0) {-->
-<!--                table.parentElement.innerHTML = "<h1>No data available</h1>";-->
-<!--            } else {-->
-<!--                Object.keys(ipCount).forEach(key => {-->
-<!--                    const row = document.createElement("tr");-->
-<!--                    row.innerHTML = `<td>${key}</td> <td>${ipCount[key]}</td>`-->
-<!--                    tbody.append(row);-->
-<!--                })-->
-
-<!--            }-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
-
-<!--</body>-->
-<!--</html>-->
 <!--============================================================================================================-->
 <!DOCTYPE html>
 <html lang="en">
@@ -328,6 +15,17 @@
         .graficas {
             width: 50%;
             margin: auto;
+        }
+        #home {
+            background-image: url('/assets/imgs/header.jpg'); /* Reemplaza con la ruta a tu imagen */
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .table-bordered{
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #b3b7bb;
         }
     </style>
 </head>
@@ -354,7 +52,7 @@
         </div>
     </div>
 </nav>
-<header id="home" class="header">
+ha
     <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
         <div class="container">
             <h1 class="text-center">Access Records</h1>
@@ -383,7 +81,7 @@
     </table>
 </div>
 <div class="container">
-    <h1>Access Records for URL: {{ urlNuevo }}</h1>
+    <h1>Access Records for URL: </h1>
     <div class="graficas">
         <div >
             <canvas id="browsersChart" width="10" height="10"></canvas>

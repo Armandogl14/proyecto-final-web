@@ -14,6 +14,7 @@ import io.jsonwebtoken.security.Keys;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKey;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -71,13 +72,27 @@ public class UserController extends BaseController{
             }
         });
         app.post("/user/tokenJWS/{usuario}", ctx -> {
-            String username = ctx.formParam("usuario");
+            String username = ctx.pathParam("usuario");
             Usuario user = UserServices.getInstance().findByUsername(username);
             if (user != null) {
+                System.out.println("Usuario encontrado    " + user.getUsername());
                 SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Genera una clave segura
-                String token = Jwts.builder().setSubject(user.getUsername()).signWith(key).compact(); // Usa la clave para firmar el JWT
-                ctx.sessionAttribute("username", user);
+
+                // Define la duración de la sesión en milisegundos
+                long sessionDuration = 1000 * 60 * 60; // 1 hora
+                Date expiration = new Date(System.currentTimeMillis() + sessionDuration);
+
+                // Crea el token con una reclamación de expiración
+                String token = Jwts.builder()
+                        .setSubject(user.getUsername())
+                        .setExpiration(expiration)
+                        .signWith(key)
+                        .compact();
+                ctx.sessionAttribute("username", token);
+                System.out.println("Token generado: " + token);
+                ctx.redirect("/");
                 ctx.result(token);
+
             } else {
                 ctx.status(404);
             }

@@ -21,13 +21,20 @@
         .table-bordered{
             width: 100%;
         }
-        #link-preview{
-            display: flex;
-            justify-content: center;
-            width: 10%;
-            /* Define la altura del elemento */
-            height: auto;
+        #link-preview {
+            width: 10%; /* El preview ocupará el 50% del ancho de su contenedor */
+            height: 10%; /* El preview ocupará el 50% de la altura de su contenedor */
         }
+        /*.modal-dialog {*/
+        /*    position: absolute; !* Posiciona el modal en relación con la ventana del navegador *!*/
+        /*    margin-left: auto;*/
+        /*    margin-right: auto;*/
+        /*    top: 50%; !* Posiciona el modal a la mitad de la altura de la ventana del navegador *!*/
+        /*    left: 50%; !* Posiciona el modal a la mitad de la anchura de la ventana del navegador *!*/
+        /*    transform: translate(-50%, -50%); !* Desplaza el modal hacia la izquierda y hacia arriba en un 50% de su propio tamaño, lo que lo centra perfectamente *!*/
+        /*    width: 50%; !* Ajusta el ancho del modal *!*/
+        /*    margin: auto; !* Centra el modal horizontalmente *!*/
+        /*}*/
     </style>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
@@ -109,8 +116,8 @@
                         document.getElementById(elementId).innerHTML = "";
                         var qrcode = new QRCode(document.getElementById(elementId), {
                             text: shortUrl,
-                            width: 128,
-                            height: 128,
+                            width: 256,
+                            height: 256,
                             colorDark : "#000000",
                             colorLight : "#ffffff",
                             correctLevel : QRCode.CorrectLevel.H
@@ -234,6 +241,13 @@
             e.preventDefault();
             $('#logoutModal').modal('show');
         });
+
+        // Handle the size of the preview
+        var myDiv = document.getElementById('myDiv');
+        if (myDiv) {
+            myDiv.style.width = "30px";
+            myDiv.style.height = "20px";
+        }
     });
 </script>
 <script th:inline="javascript">
