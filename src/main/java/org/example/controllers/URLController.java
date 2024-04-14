@@ -146,7 +146,7 @@ public class URLController extends BaseController{
                         .compact();
 
                 System.out.println("JWT: " + jwt);
-                ctx.result(jwt);
+                ctx.result(json);
                 System.out.println("Registros de acceso");
             }
 
