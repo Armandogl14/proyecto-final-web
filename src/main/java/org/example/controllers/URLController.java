@@ -103,6 +103,16 @@ public class URLController extends BaseController{
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
             String json = mapper.writeValueAsString(model);
+            // Genera una clave segura
+            SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+            // Crea el JWT
+            String jwt = Jwts.builder()
+                    .setSubject(json)
+                    .signWith(key)
+                    .compact();
+
+            System.out.println("JWT: " + jwt);
             ctx.json(json);
         });
         app.get("/url/api-acess/{username}", ctx -> {
@@ -136,7 +146,7 @@ public class URLController extends BaseController{
                         .compact();
 
                 System.out.println("JWT: " + jwt);
-                ctx.result(json);
+                ctx.result(jwt);
                 System.out.println("Registros de acceso");
             }
 
