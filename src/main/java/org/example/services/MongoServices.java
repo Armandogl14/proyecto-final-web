@@ -79,10 +79,9 @@ public class MongoServices<T> {
         private static String nombreBaseDatos;
 
         public static MongoClient getMongoClient() {
-            if(mongoClient == null){
-                ProcessBuilder processBuilder = new ProcessBuilder();
-                String URL_MONGODB = processBuilder.environment().get(DatosEstaticos.URL_MONGO.getValor());
-                nombreBaseDatos = processBuilder.environment().get(DatosEstaticos.DB_NOMBRE.getValor());
+            if (mongoClient == null) {
+                String URL_MONGODB = DatosEstaticos.URL_MONGO.getValor();
+                nombreBaseDatos = DatosEstaticos.DB_NOMBRE.getValor();
                 mongoClient = MongoClients.create(URL_MONGODB);
             }
             return mongoClient;
