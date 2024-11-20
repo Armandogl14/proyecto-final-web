@@ -2,6 +2,8 @@ package org.example.controllers;
 
 import io.javalin.Javalin;
 import io.jsonwebtoken.SignatureAlgorithm;
+import kong.unirest.Unirest;
+import kong.unirest.json.JSONObject;
 import org.bson.types.ObjectId;
 import org.example.clases.Usuario;
 import org.example.services.UserServices;
@@ -10,10 +12,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.example.util.PasswordUtil;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKey;
 
+import java.net.http.HttpResponse;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -33,13 +37,21 @@ public class UserController extends BaseController{
         app.post("/user/register", ctx -> {
             String username = ctx.formParam("usuario");
             String password = ctx.formParam("password");
+            String recaptchaResponse = ctx.formParam("g-recaptcha-response");
+
+            boolean captchaVerified = verifyCaptcha(recaptchaResponse);
+            if (!captchaVerified) {
+                ctx.render("/public/templates/register.html", Map.of("error", "CAPTCHA no verificado"));
+                return;
+            }
 
             Usuario existingUser = UserServices.getInstance().findByUsername(username);
 
             if (existingUser != null) {
                 ctx.render("/public/templates/register.html", Map.of("error", "El nombre de usuario ya existe"));
             } else {
-                Usuario newUser = new Usuario(new ObjectId(), username, password, false);
+                String encodedPassword = PasswordUtil.encodePassword(password);
+                Usuario newUser = new Usuario(new ObjectId(), username, encodedPassword, false);
                 UserServices.getInstance().crear(newUser);
                 ctx.sessionAttribute("username", newUser);
                 ctx.redirect("/");
@@ -55,19 +67,17 @@ public class UserController extends BaseController{
             String password = ctx.formParam("password");
 
             Usuario user = UserServices.getInstance().findByUsername(username);
-            if (user != null){
-                if (user.getPassword().equals(password)){
+            if (user != null) {
+                if (PasswordUtil.matches(password, user.getPassword())) {
                     if (ctx.formParam("rememberMe") != null) {
-                        ctx.cookie("rememberedUser", user.getUsername(),600);
+                        ctx.cookie("rememberedUser", user.getUsername(), 600);
                     }
                     ctx.sessionAttribute("username", user);
                     ctx.redirect("/");
-                }
-                else{
+                } else {
                     ctx.render("/public/templates/Login.html", Map.of("error", "Usuario o contraseña incorrectos"));
                 }
-            }
-            else{
+            } else {
                 ctx.render("/public/templates/Login.html", Map.of("error", "Usuario no existe"));
             }
         });
@@ -137,5 +147,21 @@ public class UserController extends BaseController{
             UserServices.getInstance().deleteByUsername(username);
             ctx.redirect("/user/list");
         });
+    }
+
+    private boolean verifyCaptcha(String recaptchaResponse) {
+        String secretKey = "6LeBJ4QqAAAAAPAEDcqWg17ELFzinybMPvobrJlQ";
+        String url = "https://www.google.com/recaptcha/api/siteverify";
+        try {
+            kong.unirest.HttpResponse<String> response = Unirest.post(url)
+                    .field("secret", secretKey)
+                    .field("response", recaptchaResponse)
+                    .asString();
+            JSONObject jsonObject = new JSONObject(response.getBody());
+            return jsonObject.getBoolean("success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

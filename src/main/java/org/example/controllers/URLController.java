@@ -10,6 +10,7 @@ import org.example.clases.Usuario;
 import org.example.services.AccessRecordServices;
 import org.example.services.URLServices;
 import org.example.services.UserServices;
+import org.example.util.SafeBrowsingUtil;
 import ua_parser.Client;
 import ua_parser.Parser;
 
@@ -37,11 +38,14 @@ public class URLController extends BaseController{
     public void aplicarRutas() {
         app.post("/url/shorten", ctx -> {
             String originalUrl = ctx.formParam("URL");
+            if (!SafeBrowsingUtil.isUrlSafe(originalUrl)) {
+                ctx.render("/public/templates/error.html", Map.of("error", "La URL proporcionada es maliciosa"));
+                return;
+            }
             String shortUrl = generateShortUrl(originalUrl);
             Usuario user = ctx.sessionAttribute("username");
             URL url = new URL(new ObjectId(), originalUrl, shortUrl, user.getUsername(), true);
             URLServices.getInstance().crear(url);
-            //ctx.result(shortUrl);
             ctx.redirect("/");
         });
         app.get("/{shortUrl}", ctx -> {

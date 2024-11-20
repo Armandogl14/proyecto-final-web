@@ -40,6 +40,9 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.10.5'
     implementation 'io.jsonwebtoken:jjwt-impl:0.10.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.10.5'
+    implementation 'com.konghq:unirest-java:3.11.09'
+    implementation 'org.json:json:20210307'
+    implementation 'org.springframework.security:spring-security-core:5.6.1'
 }
 
 protobuf {
