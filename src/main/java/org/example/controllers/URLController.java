@@ -39,7 +39,7 @@ public class URLController extends BaseController{
         app.post("/url/shorten", ctx -> {
             String originalUrl = ctx.formParam("URL");
             if (!SafeBrowsingUtil.isUrlSafe(originalUrl)) {
-                ctx.render("/public/templates/error.html", Map.of("error", "La URL proporcionada es maliciosa"));
+                ctx.status(400).result("La URL proporcionada es maliciosa");
                 return;
             }
             String shortUrl = generateShortUrl(originalUrl);
