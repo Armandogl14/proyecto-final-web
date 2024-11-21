@@ -41,7 +41,7 @@ public class UserController extends BaseController{
 
             boolean captchaVerified = verifyCaptcha(recaptchaResponse);
             if (!captchaVerified) {
-                ctx.render("/public/templates/register.html", Map.of("error", "CAPTCHA no verificado"));
+                ctx.status(400).result("Captcha no verificado");
                 return;
             }
 
