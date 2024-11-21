@@ -150,7 +150,7 @@ public class UserController extends BaseController{
     }
 
     private boolean verifyCaptcha(String recaptchaResponse) {
-        String secretKey = "6LeBJ4QqAAAAAPAEDcqWg17ELFzinybMPvobrJlQ";
+        String secretKey = "6LdzhYUqAAAAAH01HyTEx8y4eKCqdIpN1FYL-huc";
         String url = "https://www.google.com/recaptcha/api/siteverify";
         try {
             kong.unirest.HttpResponse<String> response = Unirest.post(url)
