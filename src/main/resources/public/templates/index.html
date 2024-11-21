@@ -104,10 +104,10 @@
             <tbody>
             <tr th:each="url : ${urls}">
                 <td th:text="${url.urlViejo}"></td>
-                <td ><a th:text="'https://short.com/' + ${url.urlNuevo}" th:href="'https://192.168.189.130/' + ${url.urlNuevo}" target="_blank"></a></td>
+                <td ><a th:text="'https://short.com/' + ${url.urlNuevo}" th:href="'http://192.168.189.130/' + ${url.urlNuevo}" target="_blank"></a></td>
                 <td th:text="${url.clicks}"></td>
                 <td id="'qrcode' + ${stat.index}">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#qrModal" th:data-url="'https://192.168.189.130/' + ${url.urlNuevo}" onclick="generateQRCode('qrcodeModal', this.getAttribute('data-url'))">Ver QR</button>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#qrModal" th:data-url="'http://192.168.189.130/' + ${url.urlNuevo}" onclick="generateQRCode('qrcodeModal', this.getAttribute('data-url'))">Ver QR</button>
                 </td>
                 <td th:if="${session.username and session.username.admin}"><a th:href="'/url/resume/' + ${url.urlNuevo}" th:text="${url.urlNuevo}"></a></td>
                 <script th:inline="javascript">
